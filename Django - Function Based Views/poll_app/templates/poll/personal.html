@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+{% load poll_extras %}
+
+{% block title %}
+    <title>Personal Page</title>
+{% endblock %}
+
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static 'poll/css/personal.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="position-relative">
+        <div class="imgDiv" style="background-image: url({% static 'poll/img/back.jpg' %})"></div>
+        {% if user_image %}
+            <div class="personalDiv" style="background-image: url('{{ user_image.image.url }}')"></div>
+        {% else %}
+            <div class="personalDiv" style="background-image: url({% static 'poll/img/user.png' %})"></div>
+        {% endif %}
+    </div>
+
+    <!-- WORKPLACE SECTION -->
+    <nav class="tabDiv">
+        <h2 class="text-center mb-3">{{ user.first_name }} {{ user.last_name }}</h2>
+        {% if user.is_superuser %}
+            <h4 class="text-center text-primary fw-bold">Administrator</h4>
+        {% endif %}
+        <!-- Alert Component -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show container text-center mt-3 mb-3" role="alert">
+                    <strong class="text-center">{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Tabs Component-->
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link myTab active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">About Me</button>
+            <button class="nav-link myTab" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Image</button>
+            {% if user.is_superuser %}
+            <button class="nav-link myTab" id="nav-users-tab" data-bs-toggle="tab" data-bs-target="#nav-users" type="button" role="tab" aria-controls="nav-users" aria-selected="false">Users</button>
+            <button class="nav-link myTab" id="nav-result-tab" data-bs-toggle="tab" data-bs-target="#nav-result" type="button" role="tab" aria-controls="nav-result" aria-selected="false">Poll Results</button>
+            {% else %}
+            <button class="nav-link myTab" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Poll Section</button>
+            <button class="nav-link myTab" id="nav-warning-tab" data-bs-toggle="tab" data-bs-target="#nav-warning" type="button" role="tab" aria-controls="nav-warning" aria-selected="false">Warning Messages</button>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <!-- ABOUT -->
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <ul>
+                        <li class="mt-4 mb-3"><i class="bi bi-journal-album"></i> Workplace: {{ about.work }} <a href="{% url 'edit-information' about='Workplace' %}"><i class="bi bi-pencil-square"></i></a></li>
+                        <li class="mt-3 mb-3"><i class="bi bi-award-fill"></i> University: {{ about.university }} <a href="{% url 'edit-information' about='University' %}"><i class="bi bi-pencil-square"></i></a></li>
+                        <li class="mt-3 mb-3"><i class="bi bi-geo-alt-fill"></i> City: {{ about.city }} <a href="{% url 'edit-information' about='City Name' %}"><i class="bi bi-pencil-square"></i></a></li>
+                        <li class="mt-3 mb-3"><i class="bi bi-compass-fill"></i> Country: {{ about.country }} <a href="{% url 'edit-information' about='Country Name' %}"><i class="bi bi-pencil-square"></i></a></li>
+                        <li class="mt-3 mb-3"><i class="bi bi-arrow-through-heart-fill"></i> Relationship Status: {{ about.love }} <a href="{% url 'edit-information' about='Relationship Status' %}"><i class="bi bi-pencil-square"></i></a></li>
+                        <li class="mt-3 mb-3"><i class="bi bi-telephone-outbound-fill"></i> Phone: {{ about.phone }} <a href="{% url 'edit-information' about='Phone Number' %}"><i class="bi bi-pencil-square"></i></a></li>
+                    </ul>
+                </div>
+                <div class="lineDiv"></div>
+                <div>
+                    <h5 class="text-center me-5 mt-3 mb-2">Renew Personal Data</h5>
+                    <form class="d-flex flex-column justify-content-start" method="POST">
+                        {% csrf_token %}
+                        {% for field in form_info %}
+                            {{ field }}
+                            {{ field.errors }}
+                        {% endfor %}
+                        <input type="hidden" id="hidden_personal_info" name="hidden_personal_info" value="hidden_personal_info">
+                        <button type="submit" class="personalSubmit btn btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- IMAGE SECTION -->
+        <div class="tab-pane fade d-flex justify-content-center align-items-center" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+            <form method="POST" enctype="multipart/form-data" class="mt-5 mb-5">
+                {% csrf_token %}
+                {{ form_image.as_p }}
+                <input type="hidden" id="hidden_image_file" name="hidden_image_file" value="hidden_image_file">
+                <button type="submit" class="btn btn-success w-100">Change Photo</button>
+            </form>
+        </div>
+        <!-- POLL SECTION -->
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+            {% if user.username in survey_submitted %}
+                <div id="alreadyDiv">
+                    <h2 class="text-center text-success">You Have Already Filled The Questionare</h2>
+                    <h1 class="text-center text-success fw-bold">Thanks</h1>
+                </div>
+            {% else %}
+                {% if user.is_superuser %}
+                    <h1 class="text-center">Administrator</h1>
+                {% else %}
+                    <div class="pollDiv">{% include "poll/include/poll.html" with poll=poll %}</div>
+                {% endif %}
+            {% endif %}
+        </div>
+        <!-- USERS SECTION -->
+        <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab" tabindex="0">
+            <div class="usersDiv">
+                {% include "poll/include/users.html" with all_users=all_users all_images=all_images survay_participants=survay_participants %}
+            </div>
+        </div>
+        <!-- POLL RESULTS -->
+        <div class="tab-pane fade" id="nav-result" role="tabpanel" aria-labelledby="nav-result-tab" tabindex="0">
+            {% include "poll/include/result.html" with poll=poll my_result=my_result chart_form=chart_form chart_type=chart_type %}
+        </div>
+        <!-- WARNING MESSAGE -->
+        <div class="tab-pane fade" id="nav-warning" role="tabpanel" aria-labelledby="nav-warning-tab" tabindex="0">
+            {% if warned_users|check_existence:user.username %}
+                <h3 class="text-center fw-bold text-danger warnHeading">Fill The Poll</h3>
+            {% else %}
+                <h3 class="text-center fw-bold text-success warnHeading">No Warning Messages</h3>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

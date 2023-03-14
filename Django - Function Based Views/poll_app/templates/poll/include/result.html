@@ -1,0 +1,92 @@
+{% load poll_extras %}
+
+<form action="{% url 'personal-page' %}" id="chartForm" method="POST">
+    {% csrf_token %}
+    {{ chart_form }}
+    <input type="hidden" id="hidden_chart" name="hidden_chart" value="hidden_chart">
+    <button type="submit">Change Chart Type</button>
+</form>
+
+{% for question in poll %}
+<div class="chartDiv">
+    <h4 class="text-center mb-4 chartHeading">{{ question.title }}</h4>
+    <canvas class="myChart"></canvas>
+</div>
+<hr class="myLine">
+{% endfor %}
+
+<!-- Chart.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+<!-- Internal JavaScript Code -->
+<script>
+var all_labels = [
+    {{ my_result | labels_by_index:"0" | safe }},
+    {{ my_result | labels_by_index:"1" | safe }},
+    {{ my_result | labels_by_index:"2" | safe }},
+    {{ my_result | labels_by_index:"3" | safe }},
+    {{ my_result | labels_by_index:"4" | safe }}
+];
+var all_data = [
+    {{ my_result | data_by_index:"0" | safe }},
+    {{ my_result | data_by_index:"1" | safe }},
+    {{ my_result | data_by_index:"2" | safe }},
+    {{ my_result | data_by_index:"3" | safe }},
+    {{ my_result | data_by_index:"4" | safe }}
+];
+var barColors = [
+    "rgba(0, 128, 0, 0.5)",
+    "rgba(0, 0, 128, 0.5)",
+    "rgba(255, 69, 0, 0.5)",
+    "rgba(120, 0, 0, 0.5)"
+];
+var borderColors = [
+    "rgba(0, 128, 0, 1)",
+    "rgba(0, 0, 128, 1)",
+    "rgba(255, 69, 0, 1)",
+    "rgba(120, 0, 0, 1)"
+];
+
+var myElements = document.getElementsByClassName("myChart");
+
+for (var i = 0; i < myElements.length; i++) {
+    var data = {
+        labels: all_labels[i],
+        datasets: [
+        {
+            label: "my chart",
+            data: all_data[i],
+            backgroundColor: barColors,
+            borderColor: borderColors,
+            borderWidth: 2,
+            barThickness: 80,
+        }
+        ]
+    };
+    
+    var config = {
+        type: "{{ chart_type | safe }}",
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "top",
+                },
+                title: {
+                    display: true,
+                    text: "Chart.js Pie Chart"
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+    
+    var myChart = new Chart(myElements[i], config);
+}
+
+</script>

@@ -1,0 +1,30 @@
+{% load poll_extras %}
+
+<h2 class="text-center fw-bold">Please Fill The Questionare</h2>
+<div class="container mt-5">
+    <form action="{% url 'personal-page' %}" method="POST">
+        {% csrf_token %}
+        {% for question in poll %}
+            <p>{{ question.title }}</p>
+            <div>
+                <input type="hidden" id="{{ question.slug_title }}" name="{{ question.slug_title }}" value="{{ question.slug_title }}">
+
+                <input type="radio" id="{{ question.answer_1|return_first }}" name="{{ question.slug_name }}" value="{{ question.answer_1 }}" required>
+                <label for="{{ question.answer_1|return_first }}">{{ question.answer_1 }}</label><br>
+
+                <input type="radio" id="{{ question.answer_2|return_first }}" name="{{ question.slug_name }}" value="{{ question.answer_2 }}" required>
+                <label for="{{ question.answer_2|return_first }}">{{ question.answer_2 }}</label><br>
+
+                <input type="radio" id="{{ question.answer_3|return_first }}" name="{{ question.slug_name }}" value="{{ question.answer_3 }}" required>
+                <label for="{{ question.answer_3|return_first }}">{{ question.answer_3 }}</label><br>
+
+                <input type="radio" id="{{ question.answer_4|return_first }}" name="{{ question.slug_name }}" value="{{ question.answer_4 }}" required>
+                <label for="{{ question.answer_4|return_first }}">{{ question.answer_4 }}</label><br><br><br>
+            </div>
+        {% endfor %}
+        <input type="hidden" id="hidden_poll" name="hidden_poll" value="hidden_poll">
+        <div class="text-center w-100">
+            <button id="pullButton" type="submit">Submit</button>
+        </div>
+    </form>
+</div>

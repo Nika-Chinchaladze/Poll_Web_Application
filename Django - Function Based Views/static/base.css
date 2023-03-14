@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Roboto Mono', monospace;
+    box-sizing: border-box;
+    background-color: rgba(194, 183, 183, 0.815);
+    color: black;
+}
+.my-link:hover {
+    color: gold!important;
+}
+label {
+    margin-bottom: 5px;
+}

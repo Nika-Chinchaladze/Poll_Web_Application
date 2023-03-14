@@ -1,0 +1,142 @@
+ul {
+    list-style: none;
+}
+.imgDiv {
+    width: 100%;
+    height: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.personalDiv {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgb(222, 225, 228);
+    position: absolute;
+    bottom: -75px;
+    left: 43.5%;
+    z-index: 2;
+}
+.tabDiv {
+    margin-top: 85px;
+}
+.myTab {
+    color: black!important;
+}
+.lineDiv {
+    width: 3px;
+    height: 350px;
+    border: none;
+    background-color: black;
+    border-radius: 30px;
+}
+.personalForm, .personalSubmit {
+    border: 1px solid rgba(39, 18, 18, 0.781);
+    box-sizing: border-box;
+    width: 400px;
+    margin: 0 50px 5px 0;
+}
+.personalSubmit {
+    margin-top: 5px;
+}
+.imageForm {
+    border: 1px solid rgba(39, 18, 18, 0.781);
+    box-sizing: border-box;
+    width: 100%;
+    margin: 5px 0;
+    background-color: rgba(238, 236, 118, 0.76);
+}
+.pollDiv, #alreadyDiv, .usersDiv {
+    position: relative;
+    top: -200px;
+}
+.usersDiv {
+    box-sizing: border-box;
+    padding: 0 50px;
+}
+#pullButton {
+    width: 30%;
+    height: 50px;
+    border-radius: 10px;
+    border: 2px solid rgba(27, 16, 16, 0.692);
+    background-color: rgba(47, 15, 161, 0.664);
+    color: white;
+    font-weight: bold;
+}
+.userIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.userFrameDiv {
+    box-sizing: border-box;
+    padding: 5px 20px;
+    border: 1px solid rgba(12, 12, 12, 0.596);
+    border-radius: 5px;
+}
+hr {
+    border-style: none;
+    border-bottom: 2px dashed rgba(24, 8, 8, 0.877);
+}
+.chartDiv {
+    position: relative;
+    top: -200px;
+    margin-bottom: 150px;
+}
+.myChart {
+    width: 500px;
+    max-width: 60%;
+    margin: auto;
+}
+.chartHeading {
+    font-weight: normal;
+    width: 80%;
+    margin: auto;
+}
+.myLine {
+    position: relative;
+    top: -310px;
+    width: 80%;
+    margin: auto;
+    border: none;
+    border-bottom: 2px dotted black;
+}
+#chartForm {
+    box-sizing: border-box;
+    margin-bottom: 30px;
+    width: 50%;
+    height: auto;
+    text-align: center;
+    position: relative;
+    top: -230px;
+    left: 25%;
+}
+#chartForm select, #chartForm button {
+    box-sizing: border-box;
+    display: block;
+    margin: auto;
+    width: 200px;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(19, 2, 19, 0.74);
+    border-radius: 5px;
+    text-align: center;
+}
+#chartForm button:hover {
+    color: white;
+    background-color: rgba(3, 3, 83, 0.733);
+    font-weight: bold;
+}
+.warnHeading {
+    position: relative;
+    top: -180px;
+}

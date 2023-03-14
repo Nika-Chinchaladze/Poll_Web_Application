@@ -1,0 +1,25 @@
+{% load poll_extras %}
+{% load static %}
+
+<h3 class="text-center">Available Users</h3>
+<hr>
+{% for each in all_users %}
+    <div class="d-flex justify-content-between align-items-center mt-3 userFrameDiv">
+
+        {% if all_images|find_contains:each.username %}
+        <div class="userIcon" style="background-image: url('{{ each|return_img_url:all_images }}');"></div>
+        {% else %}
+            <div class="userIcon" style="background-image: url('{% static 'poll/img/user.png' %}');"></div>
+        {% endif %}
+        <h5>{{ each.username }}</h5>
+    
+        <div>
+            {% if survay_participants|check_existence:each.username %}
+            <span class="fw-bold me-3" style="color: green;">Filled Poll</span>
+            {% else %}
+                <a href="{% url 'message-page' user_id=each.id %}" style="color: red; text-decoration: none;"><span class="fw-bold me-3">Haven't Filled</span></a>
+            {% endif %}
+            <a href="{% url 'delete-user' user_id=each.id %}" style="color: red;"><i class="bi bi-trash-fill ms-3"></i></a>
+        </div>
+    </div>
+{% endfor %}

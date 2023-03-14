@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Edit Page</title>
+{% endblock %}
+
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static 'poll/css/edit.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <div class="d-flex flex-column justify-content-center editDiv">
+        <h3 class="text-center">{{ about }}</h3>
+        <form method="POST" class="w-100 text-center mt-4 editForm">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" id="edit_input" name="edit_input" value="{{ field_name }}">
+            <button class="mt-4" type="submit">Update Record</button>
+        </form>
+    </div>
+{% endblock %}
